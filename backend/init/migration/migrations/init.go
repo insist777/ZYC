@@ -534,7 +534,7 @@ var UpdateCronjobWithDb = &gormigrate.Migration{
 	ID: "20230809-update-cronjob-with-db",
 	Migrate: func(tx *gorm.DB) error {
 		var cronjobs []model.Cronjob
-		if err := tx.Where("type = ? AND db_name != ?", "database", "all").Find(&cronjobs).Error; err != nil {
+		if err := tx.Where("`type` = ? AND `db_name` != ?", "database", "all").Find(&cronjobs).Error; err != nil {
 			return nil
 		}
 

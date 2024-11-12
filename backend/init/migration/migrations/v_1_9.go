@@ -153,25 +153,25 @@ var AddTableDatabasePostgresql = &gormigrate.Migration{
 			return err
 		}
 		var jobs []model.Cronjob
-		if err := tx.Where("type == ?", "database").Find(&jobs).Error; err != nil {
+		if err := tx.Where("`type` == ?", "database").Find(&jobs).Error; err != nil {
 			return err
 		}
 		for _, job := range jobs {
 			if job.DBName == "all" {
-				if err := tx.Model(&model.Cronjob{}).Where("id = ?", job.ID).Update("db_type", "mysql").Error; err != nil {
+				if err := tx.Model(&model.Cronjob{}).Where("`id` = ?", job.ID).Update("db_type", "mysql").Error; err != nil {
 					global.LOG.Errorf("update db type of cronjob %s failed, err: %v", job.Name, err)
 					continue
 				}
 			}
 			var db model.DatabaseMysql
-			if err := tx.Where("id == ?", job.DBName).First(&db).Error; err != nil {
+			if err := tx.Where("`id` == ?", job.DBName).First(&db).Error; err != nil {
 				continue
 			}
 			var database model.Database
-			if err := tx.Where("name == ?", db.MysqlName).First(&database).Error; err != nil {
+			if err := tx.Where("`name` == ?", db.MysqlName).First(&database).Error; err != nil {
 				continue
 			}
-			if err := tx.Model(&model.Cronjob{}).Where("id = ?", job.ID).Update("db_type", database.Type).Error; err != nil {
+			if err := tx.Model(&model.Cronjob{}).Where("`id` = ?", job.ID).Update("db_type", database.Type).Error; err != nil {
 				global.LOG.Errorf("update db type of cronjob %s failed, err: %v", job.Name, err)
 				continue
 			}
@@ -194,17 +194,17 @@ var UpdateCronjobWithWebsite = &gormigrate.Migration{
 	ID: "20230809-update-cronjob-with-website",
 	Migrate: func(tx *gorm.DB) error {
 		var cronjobs []model.Cronjob
-		if err := tx.Where("(type = ? OR type = ?) AND website != ?", "website", "cutWebsiteLog", "all").Find(&cronjobs).Error; err != nil {
+		if err := tx.Where("(`type` = ? OR `type` = ?) AND `website` != ?", "website", "cutWebsiteLog", "all").Find(&cronjobs).Error; err != nil {
 			return err
 		}
 
 		for _, job := range cronjobs {
 			var web model.Website
-			if err := tx.Where("primary_domain = ?", job.Website).First(&web).Error; err != nil {
+			if err := tx.Where("`primary_domain` = ?", job.Website).First(&web).Error; err != nil {
 				continue
 			}
 			if err := tx.Model(&model.Cronjob{}).
-				Where("id = ?", job.ID).
+				Where("`id` = ?", job.ID).
 				Updates(map[string]interface{}{"website": web.ID}).Error; err != nil {
 				continue
 			}
@@ -222,7 +222,7 @@ var UpdateOneDriveToken = &gormigrate.Migration{
 			clientSetting model.Setting
 			secretSetting model.Setting
 		)
-		_ = tx.Where("type = ?", "OneDrive").First(&backup).Error
+		_ = tx.Where("`type` = ?", "OneDrive").First(&backup).Error
 		if backup.ID == 0 {
 			return nil
 		}
@@ -262,7 +262,7 @@ var UpdateOneDriveToken = &gormigrate.Migration{
 		varMap["refresh_token"] = refreshToken
 		itemVars, _ := json.Marshal(varMap)
 		if err := tx.Model(&model.BackupAccount{}).
-			Where("id = ?", backup.ID).
+			Where("`id` = ?", backup.ID).
 			Updates(map[string]interface{}{
 				"vars": string(itemVars),
 			}).Error; err != nil {
@@ -297,7 +297,7 @@ var UpdateCronjobSpec = &gormigrate.Migration{
 		for _, job := range jobs {
 			if job.KeepLocal && mapAccount[uint(job.TargetDirID)].Type != constant.Local {
 				if err := tx.Model(&model.Cronjob{}).
-					Where("id = ?", job.ID).
+					Where("`id` = ?", job.ID).
 					Updates(map[string]interface{}{
 						"backup_accounts":  fmt.Sprintf("%v,%v", mapAccount[uint(job.TargetDirID)].Type, constant.Local),
 						"default_download": constant.Local,
@@ -307,7 +307,7 @@ var UpdateCronjobSpec = &gormigrate.Migration{
 				job.DefaultDownload = constant.Local
 			} else {
 				if err := tx.Model(&model.Cronjob{}).
-					Where("id = ?", job.ID).
+					Where("`id` = ?", job.ID).
 					Updates(map[string]interface{}{
 						"backup_accounts":  mapAccount[uint(job.TargetDirID)].Type,
 						"default_download": mapAccount[uint(job.TargetDirID)].Type,
@@ -328,11 +328,11 @@ var UpdateCronjobSpec = &gormigrate.Migration{
 			}
 
 			var records []model.JobRecords
-			_ = tx.Where("cronjob_id = ?", job.ID).Find(&records).Error
+			_ = tx.Where("`cronjob_id` = ?", job.ID).Find(&records).Error
 			for _, record := range records {
 				if job.Type == "snapshot" && record.Status == constant.StatusSuccess {
 					var snaps []model.Snapshot
-					_ = tx.Where("name like ?", "snapshot_"+"%").Find(&snaps).Error
+					_ = tx.Where("`name` like ?", "snapshot_"+"%").Find(&snaps).Error
 					for _, snap := range snaps {
 						item := model.BackupRecord{
 							From:       "cronjob",
@@ -393,12 +393,12 @@ var UpdateCronjobSpec = &gormigrate.Migration{
 					files := strings.Split(record.File, ",")
 					for _, file := range files {
 						_ = tx.Model(&model.BackupRecord{}).
-							Where("file_dir = ? AND file_name = ?", path.Dir(strings.TrimPrefix(file, itemPath)), path.Base(file)).
+							Where("`file_dir` = ? AND `file_name` = ?", path.Dir(strings.TrimPrefix(file, itemPath)), path.Base(file)).
 							Updates(map[string]interface{}{"cronjob_id": job.ID, "from": "cronjob"}).Error
 					}
 				} else {
 					_ = tx.Model(&model.BackupRecord{}).
-						Where("file_dir = ? AND file_name = ?", path.Dir(strings.TrimPrefix(record.File, itemPath)), path.Base(record.File)).
+						Where("`file_dir` = ? AND `file_name` = ?", path.Dir(strings.TrimPrefix(record.File, itemPath)), path.Base(record.File)).
 						Updates(map[string]interface{}{"cronjob_id": job.ID, "from": "cronjob"}).Error
 				}
 			}
@@ -424,7 +424,7 @@ var UpdateBackupRecordPath = &gormigrate.Migration{
 			localAccount  model.BackupAccount
 		)
 
-		_ = tx.Where("type = ?", "LOCAL").First(&localAccount).Error
+		_ = tx.Where("`type` = ?", "LOCAL").First(&localAccount).Error
 		if localAccount.ID == 0 {
 			return nil
 		}
@@ -439,10 +439,10 @@ var UpdateBackupRecordPath = &gormigrate.Migration{
 		if dir != "/" {
 			dir += "/"
 		}
-		_ = tx.Where("source = ?", "LOCAL").Find(&backupRecords).Error
+		_ = tx.Where("`source` = ?", "LOCAL").Find(&backupRecords).Error
 		for _, record := range backupRecords {
 			_ = tx.Model(&model.BackupRecord{}).
-				Where("id = ?", record.ID).
+				Where("`id` = ?", record.ID).
 				Updates(map[string]interface{}{"file_dir": strings.TrimPrefix(record.FileDir, dir)}).Error
 		}
 		return nil
@@ -459,7 +459,7 @@ var UpdateSnapshotRecords = &gormigrate.Migration{
 		_ = tx.Find(&snaps).Error
 		for _, snap := range snaps {
 			_ = tx.Model(&model.Snapshot{}).
-				Where("id = ?", snap.ID).
+				Where("`id` = ?", snap.ID).
 				Updates(map[string]interface{}{"default_download": snap.From}).Error
 		}
 		return nil
@@ -470,7 +470,7 @@ var UpdateWebDavConf = &gormigrate.Migration{
 	ID: "20240205-update-webdav-conf",
 	Migrate: func(tx *gorm.DB) error {
 		var backup model.BackupAccount
-		_ = tx.Where("type = ?", constant.WebDAV).First(&backup).Error
+		_ = tx.Where("`type` = ?", constant.WebDAV).First(&backup).Error
 		if backup.ID == 0 {
 			return nil
 		}
@@ -485,7 +485,7 @@ var UpdateWebDavConf = &gormigrate.Migration{
 		}
 
 		vars, _ := json.Marshal(varMap)
-		if err := tx.Model(&model.BackupAccount{}).Where("id = ?", backup.ID).Updates(map[string]interface{}{"vars": string(vars)}).Error; err != nil {
+		if err := tx.Model(&model.BackupAccount{}).Where("`id` = ?", backup.ID).Updates(map[string]interface{}{"vars": string(vars)}).Error; err != nil {
 			return err
 		}
 		return nil

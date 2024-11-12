@@ -150,7 +150,7 @@ func handleCronjobStatus() {
 
 func loadLocalDir() {
 	var backup model.BackupAccount
-	_ = global.DB.Where("type = ?", "LOCAL").First(&backup).Error
+	_ = global.DB.Where("`type` = ?", "LOCAL").First(&backup).Error
 	if backup.ID == 0 {
 		global.LOG.Errorf("no such backup account `%s` in db", "LOCAL")
 		return

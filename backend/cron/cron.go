@@ -51,18 +51,18 @@ func Run() {
 	}
 
 	var backup model.BackupAccount
-	_ = global.DB.Where("type = ?", "OneDrive").Find(&backup).Error
+	_ = global.DB.Where("`type` = ?", "OneDrive").Find(&backup).Error
 	if backup.ID != 0 {
 		service.StartRefreshOneDriveToken()
 	}
 	global.Cron.Start()
 
 	var cronJobs []model.Cronjob
-	if err := global.DB.Where("status = ?", constant.StatusEnable).Find(&cronJobs).Error; err != nil {
+	if err := global.DB.Where("`status` = ?", constant.StatusEnable).Find(&cronJobs).Error; err != nil {
 		global.LOG.Errorf("start my cronjob failed, err: %v", err)
 	}
 	if err := global.DB.Model(&model.JobRecords{}).
-		Where("status = ?", constant.StatusRunning).
+		Where("`status` = ?", constant.StatusRunning).
 		Updates(map[string]interface{}{
 			"status":  constant.StatusFailed,
 			"message": "Task Cancel",
