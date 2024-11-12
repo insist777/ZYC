@@ -109,7 +109,7 @@ func (u *MysqlRepo) Update(id uint, vars map[string]interface{}) error {
 
 func (u *MysqlRepo) WithByMysqlName(mysqlName string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("mysql_name = ?", mysqlName)
+		return g.Where("`mysql_name` = ?", mysqlName)
 	}
 }
 

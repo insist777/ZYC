@@ -69,23 +69,23 @@ func (h *HostRepo) WithByInfo(info string) DBOption {
 			return g
 		}
 		infoStr := "%" + info + "%"
-		return g.Where("name LIKE ? OR addr LIKE ?", infoStr, infoStr)
+		return g.Where("`name` LIKE ? OR `addr` LIKE ?", infoStr, infoStr)
 	}
 }
 
 func (h *HostRepo) WithByPort(port uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("port = ?", port)
+		return g.Where("`port` = ?", port)
 	}
 }
 func (h *HostRepo) WithByUser(user string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("user = ?", user)
+		return g.Where("`user` = ?", user)
 	}
 }
 func (h *HostRepo) WithByAddr(addr string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("addr = ?", addr)
+		return g.Where("`addr` = ?", addr)
 	}
 }
 func (h *HostRepo) WithByGroup(group string) DBOption {
@@ -93,7 +93,7 @@ func (h *HostRepo) WithByGroup(group string) DBOption {
 		if len(group) == 0 {
 			return g
 		}
-		return g.Where("group_belong = ?", group)
+		return g.Where("`group_belong` = ?", group)
 	}
 }
 
@@ -102,7 +102,7 @@ func (h *HostRepo) Create(host *model.Host) error {
 }
 
 func (h *HostRepo) Update(id uint, vars map[string]interface{}) error {
-	return global.DB.Model(&model.Host{}).Where("id = ?", id).Updates(vars).Error
+	return global.DB.Model(&model.Host{}).Where("`id` = ?", id).Updates(vars).Error
 }
 
 func (h *HostRepo) Delete(opts ...DBOption) error {
@@ -137,12 +137,12 @@ func (h *HostRepo) SaveFirewallRecord(firewall *model.Firewall) error {
 	}
 	var data model.Firewall
 	if firewall.Type == "port" {
-		_ = global.DB.Where("type = ? AND port = ? AND protocol = ? AND address = ? AND strategy = ?", "port", firewall.Port, firewall.Protocol, firewall.Address, firewall.Strategy).First(&data)
+		_ = global.DB.Where("`type` = ? AND `port` = ? AND `protocol` = ? AND `address` = ? AND `strategy` = ?", "port", firewall.Port, firewall.Protocol, firewall.Address, firewall.Strategy).First(&data)
 		if data.ID != 0 {
 			firewall.ID = data.ID
 		}
 	} else {
-		_ = global.DB.Where("type = ? AND address = ? AND strategy = ?", "address", firewall.Address, firewall.Strategy).First(&data)
+		_ = global.DB.Where("`type` = ? AND `address` = ? AND `strategy` = ?", "address", firewall.Address, firewall.Strategy).First(&data)
 		if data.ID != 0 {
 			firewall.ID = data.ID
 		}
@@ -151,9 +151,9 @@ func (h *HostRepo) SaveFirewallRecord(firewall *model.Firewall) error {
 }
 
 func (h *HostRepo) DeleteFirewallRecordByID(id uint) error {
-	return global.DB.Where("id = ?", id).Delete(&model.Firewall{}).Error
+	return global.DB.Where("`id` = ?", id).Delete(&model.Firewall{}).Error
 }
 
 func (h *HostRepo) DeleteFirewallRecord(fType, port, protocol, address, strategy string) error {
-	return global.DB.Where("type = ? AND port = ? AND protocol = ? AND address = ? AND strategy = ?", fType, port, protocol, address, strategy).Delete(&model.Firewall{}).Error
+	return global.DB.Where("`type` = ? AND `port` = ? AND `protocol` = ? AND `address` = ? AND `strategy` = ?", fType, port, protocol, address, strategy).Delete(&model.Firewall{}).Error
 }

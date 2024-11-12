@@ -36,7 +36,7 @@ func (b *BaseApi) LoadMonitor(c *gin.Context) {
 	if req.Param == "all" || req.Param == "cpu" || req.Param == "memory" || req.Param == "load" {
 		var bases []model.MonitorBase
 		if err := global.MonitorDB.
-			Where("created_at > ? AND created_at < ?", req.StartTime, req.EndTime).
+			Where("`created_at` > ? AND `created_at` < ?", req.StartTime, req.EndTime).
 			Find(&bases).Error; err != nil {
 			helper.ErrorWithDetail(c, constant.CodeErrInternalServer, constant.ErrTypeInternalServer, err)
 			return
@@ -53,7 +53,7 @@ func (b *BaseApi) LoadMonitor(c *gin.Context) {
 	if req.Param == "all" || req.Param == "io" {
 		var bases []model.MonitorIO
 		if err := global.MonitorDB.
-			Where("created_at > ? AND created_at < ?", req.StartTime, req.EndTime).
+			Where("`created_at` > ? AND `created_at` < ?", req.StartTime, req.EndTime).
 			Find(&bases).Error; err != nil {
 			helper.ErrorWithDetail(c, constant.CodeErrInternalServer, constant.ErrTypeInternalServer, err)
 			return
@@ -70,7 +70,7 @@ func (b *BaseApi) LoadMonitor(c *gin.Context) {
 	if req.Param == "all" || req.Param == "network" {
 		var bases []model.MonitorNetwork
 		if err := global.MonitorDB.
-			Where("name = ? AND created_at > ? AND created_at < ?", req.Info, req.StartTime, req.EndTime).
+			Where("`name` = ? AND `created_at` > ? AND `created_at` < ?", req.Info, req.StartTime, req.EndTime).
 			Find(&bases).Error; err != nil {
 			helper.ErrorWithDetail(c, constant.CodeErrInternalServer, constant.ErrTypeInternalServer, err)
 			return

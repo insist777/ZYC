@@ -29,19 +29,19 @@ func NewIAppDetailRepo() IAppDetailRepo {
 
 func (a AppDetailRepo) WithVersion(version string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("version = ?", version)
+		return g.Where("`version` = ?", version)
 	}
 }
 
 func (a AppDetailRepo) WithAppId(id uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("app_id = ?", id)
+		return g.Where("`app_id` = ?", id)
 	}
 }
 
 func (a AppDetailRepo) WithIgnored() DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("ignore_upgrade = 1")
+		return g.Where("`ignore_upgrade` = 1")
 	}
 }
 
@@ -60,7 +60,7 @@ func (a AppDetailRepo) BatchCreate(ctx context.Context, details []model.AppDetai
 }
 
 func (a AppDetailRepo) DeleteByAppIds(ctx context.Context, appIds []uint) error {
-	return getTx(ctx).Where("app_id in (?)", appIds).Delete(&model.AppDetail{}).Error
+	return getTx(ctx).Where("`app_id` in (?)", appIds).Delete(&model.AppDetail{}).Error
 }
 
 func (a AppDetailRepo) GetBy(opts ...DBOption) ([]model.AppDetail, error) {
@@ -72,7 +72,7 @@ func (a AppDetailRepo) GetBy(opts ...DBOption) ([]model.AppDetail, error) {
 func (a AppDetailRepo) BatchUpdateBy(maps map[string]interface{}, opts ...DBOption) error {
 	db := getDb(opts...).Model(&model.AppDetail{})
 	if len(opts) == 0 {
-		db = db.Where("1=1")
+		db = db.Where("`1=1`")
 	}
 	return db.Updates(&maps).Error
 }

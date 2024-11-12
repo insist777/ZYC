@@ -32,37 +32,37 @@ func NewIRunTimeRepo() IRuntimeRepo {
 
 func (r *RuntimeRepo) WithName(name string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("name = ?", name)
+		return g.Where("`name` = ?", name)
 	}
 }
 
 func (r *RuntimeRepo) WithStatus(status string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("status = ?", status)
+		return g.Where("`status` = ?", status)
 	}
 }
 
 func (r *RuntimeRepo) WithImage(image string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("image = ?", image)
+		return g.Where("`image` = ?", image)
 	}
 }
 
 func (r *RuntimeRepo) WithDetailId(id uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("app_detail_id = ?", id)
+		return g.Where("`app_detail_id` = ?", id)
 	}
 }
 
 func (r *RuntimeRepo) WithNotId(id uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("id != ?", id)
+		return g.Where("`id` != ?", id)
 	}
 }
 
 func (r *RuntimeRepo) WithPort(port int) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("port = ?", port)
+		return g.Where("`port` = ?", port)
 	}
 }
 

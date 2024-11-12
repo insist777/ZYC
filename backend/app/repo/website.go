@@ -39,55 +39,55 @@ type WebsiteRepo struct {
 
 func (w *WebsiteRepo) WithAppInstallId(appInstallID uint) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("app_install_id = ?", appInstallID)
+		return db.Where("`app_install_id` = ?", appInstallID)
 	}
 }
 
 func (w *WebsiteRepo) WithIDs(ids []uint) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("id in (?)", ids)
+		return db.Where("`id` in (?)", ids)
 	}
 }
 
 func (w *WebsiteRepo) WithRuntimeID(runtimeID uint) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("runtime_id = ?", runtimeID)
+		return db.Where("`runtime_id` = ?", runtimeID)
 	}
 }
 
 func (w *WebsiteRepo) WithDomain(domain string) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("primary_domain = ?", domain)
+		return db.Where("`primary_domain` = ?", domain)
 	}
 }
 
 func (w *WebsiteRepo) WithDomainLike(domain string) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("primary_domain like ?", "%"+domain+"%")
+		return db.Where("`primary_domain like` ?", "%"+domain+"%")
 	}
 }
 
 func (w *WebsiteRepo) WithAlias(alias string) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("alias = ?", alias)
+		return db.Where("`alias` = ?", alias)
 	}
 }
 
 func (w *WebsiteRepo) WithWebsiteSSLID(sslId uint) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("website_ssl_id = ?", sslId)
+		return db.Where("`website_ssl_id` = ?", sslId)
 	}
 }
 
 func (w *WebsiteRepo) WithGroupID(groupId uint) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("website_group_id = ?", groupId)
+		return db.Where("`website_group_id` = ?", groupId)
 	}
 }
 
 func (w *WebsiteRepo) WithDefaultServer() DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("default_server = 1")
+		return db.Where("`default_server` = 1")
 	}
 }
 
@@ -141,5 +141,5 @@ func (w *WebsiteRepo) DeleteBy(ctx context.Context, opts ...DBOption) error {
 }
 
 func (w *WebsiteRepo) DeleteAll(ctx context.Context) error {
-	return getTx(ctx).Where("1 = 1 ").Delete(&model.Website{}).Error
+	return getTx(ctx).Where("`1 = 1` ").Delete(&model.Website{}).Error
 }

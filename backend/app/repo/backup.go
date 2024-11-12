@@ -69,7 +69,7 @@ func (u *BackupRepo) WithByDetailName(detailName string) DBOption {
 		if len(detailName) == 0 {
 			return g
 		}
-		return g.Where("detail_name = ?", detailName)
+		return g.Where("`detail_name` = ?", detailName)
 	}
 }
 
@@ -78,13 +78,13 @@ func (u *BackupRepo) WithByFileName(fileName string) DBOption {
 		if len(fileName) == 0 {
 			return g
 		}
-		return g.Where("file_name = ?", fileName)
+		return g.Where("`file_name` = ?", fileName)
 	}
 }
 
 func (u *BackupRepo) WithFileNameStartWith(filePrefix string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("file_name LIKE ?", filePrefix+"%")
+		return g.Where("`file_name LIKE` ?", filePrefix+"%")
 	}
 }
 
@@ -93,7 +93,7 @@ func (u *BackupRepo) WithByType(backupType string) DBOption {
 		if len(backupType) == 0 {
 			return g
 		}
-		return g.Where("type = ?", backupType)
+		return g.Where("`type` = ?", backupType)
 	}
 }
 
@@ -120,7 +120,7 @@ func (u *BackupRepo) UpdateRecord(record *model.BackupRecord) error {
 }
 
 func (u *BackupRepo) Update(id uint, vars map[string]interface{}) error {
-	return global.DB.Model(&model.BackupAccount{}).Where("id = ?", id).Updates(vars).Error
+	return global.DB.Model(&model.BackupAccount{}).Where("`id = ?", id).Updates(vars).Error
 }
 
 func (u *BackupRepo) Delete(opts ...DBOption) error {
@@ -137,6 +137,6 @@ func (u *BackupRepo) DeleteRecord(ctx context.Context, opts ...DBOption) error {
 
 func (u *BackupRepo) WithByCronID(cronjobID uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("cronjob_id = ?", cronjobID)
+		return g.Where("`cronjob_id` = ?", cronjobID)
 	}
 }

@@ -37,7 +37,7 @@ func (a AppRepo) WithLikeName(name string) DBOption {
 		if len(name) == 0 {
 			return g
 		}
-		return g.Where("name like ? or short_desc_zh like ? or short_desc_en like ?", "%"+name+"%", "%"+name+"%", "%"+name+"%")
+		return g.Where("`name` like ? or `short_desc_zh` like ? or `short_desc_en` like ?", "%"+name+"%", "%"+name+"%", "%"+name+"%")
 	}
 }
 
@@ -49,7 +49,7 @@ func (a AppRepo) WithKey(key string) DBOption {
 
 func (a AppRepo) WithType(typeStr string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("type = ?", typeStr)
+		return g.Where("`type` = ?", typeStr)
 	}
 }
 
@@ -61,13 +61,13 @@ func (a AppRepo) OrderByRecommend() DBOption {
 
 func (a AppRepo) GetRecommend() DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("recommend < 9999")
+		return g.Where("`recommend` < 9999")
 	}
 }
 
 func (a AppRepo) WithResource(resource string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("resource = ?", resource)
+		return g.Where("`resource` = ?", resource)
 	}
 }
 

@@ -37,7 +37,7 @@ func (h *FtpRepo) WithByUser(user string) DBOption {
 		if len(user) == 0 {
 			return g
 		}
-		return g.Where("user like ?", "%"+user+"%")
+		return g.Where("`user` like ?", "%"+user+"%")
 	}
 }
 
@@ -68,7 +68,7 @@ func (h *FtpRepo) Create(ftp *model.Ftp) error {
 }
 
 func (h *FtpRepo) Update(id uint, vars map[string]interface{}) error {
-	return global.DB.Model(&model.Ftp{}).Where("id = ?", id).Updates(vars).Error
+	return global.DB.Model(&model.Ftp{}).Where("`id` = ?", id).Updates(vars).Error
 }
 
 func (h *FtpRepo) Delete(opts ...DBOption) error {

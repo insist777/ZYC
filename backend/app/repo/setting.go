@@ -77,11 +77,11 @@ func (u *SettingRepo) BatchCreateMonitorNet(ioList []model.MonitorNetwork) error
 	return global.MonitorDB.CreateInBatches(ioList, len(ioList)).Error
 }
 func (u *SettingRepo) DelMonitorBase(timeForDelete time.Time) error {
-	return global.MonitorDB.Where("created_at < ?", timeForDelete).Delete(&model.MonitorBase{}).Error
+	return global.MonitorDB.Where("`created_at` < ?", timeForDelete).Delete(&model.MonitorBase{}).Error
 }
 func (u *SettingRepo) DelMonitorIO(timeForDelete time.Time) error {
-	return global.MonitorDB.Where("created_at < ?", timeForDelete).Delete(&model.MonitorIO{}).Error
+	return global.MonitorDB.Where("`created_at` < ?", timeForDelete).Delete(&model.MonitorIO{}).Error
 }
 func (u *SettingRepo) DelMonitorNet(timeForDelete time.Time) error {
-	return global.MonitorDB.Where("created_at < ?", timeForDelete).Delete(&model.MonitorNetwork{}).Error
+	return global.MonitorDB.Where("`created_at` < ?", timeForDelete).Delete(&model.MonitorNetwork{}).Error
 }

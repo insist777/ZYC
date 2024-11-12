@@ -99,7 +99,7 @@ func (c *CommandRepo) WithByInfo(info string) DBOption {
 			return g
 		}
 		infoStr := "%" + info + "%"
-		return g.Where("name LIKE ? OR addr LIKE ?", infoStr, infoStr)
+		return g.Where("`name` LIKE ? OR `addr` LIKE ?", infoStr, infoStr)
 	}
 }
 
@@ -112,7 +112,7 @@ func (u *CommandRepo) SaveRedis(command *model.RedisCommand) error {
 }
 
 func (u *CommandRepo) Update(id uint, vars map[string]interface{}) error {
-	return global.DB.Model(&model.Command{}).Where("id = ?", id).Updates(vars).Error
+	return global.DB.Model(&model.Command{}).Where("`id` = ?", id).Updates(vars).Error
 }
 
 func (u *CommandRepo) Delete(opts ...DBOption) error {
@@ -136,6 +136,6 @@ func (a CommandRepo) WithLikeName(name string) DBOption {
 		if len(name) == 0 {
 			return g
 		}
-		return g.Where("name like ? or command like ?", "%"+name+"%", "%"+name+"%")
+		return g.Where("`name` like ? or `command` like ?", "%"+name+"%", "%"+name+"%")
 	}
 }

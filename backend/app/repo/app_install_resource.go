@@ -28,13 +28,13 @@ func NewIAppInstallResourceRpo() IAppInstallResourceRpo {
 
 func (a AppInstallResourceRpo) WithAppInstallId(appInstallId uint) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("app_install_id = ?", appInstallId)
+		return db.Where("`app_install_id` = ?", appInstallId)
 	}
 }
 
 func (a AppInstallResourceRpo) WithLinkId(linkId uint) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("link_id = ?", linkId)
+		return db.Where("`link_id` = ?", linkId)
 	}
 }
 

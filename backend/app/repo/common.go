@@ -35,31 +35,31 @@ func NewCommonRepo() ICommonRepo {
 
 func (c *CommonRepo) WithByID(id uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("id = ?", id)
+		return g.Where("`id` = ?", id)
 	}
 }
 
 func (c *CommonRepo) WithByName(name string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("name = ?", name)
+		return g.Where("`name` = ?", name)
 	}
 }
 
 func (c *CommonRepo) WithByDate(startTime, endTime time.Time) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("start_time > ? AND start_time < ?", startTime, endTime)
+		return g.Where("`start_time` > ? AND `start_time` < ?", startTime, endTime)
 	}
 }
 
 func (c *CommonRepo) WithByStartDate(startTime time.Time) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("start_time < ?", startTime)
+		return g.Where("``start_time` < ?", startTime)
 	}
 }
 
 func (c *CommonRepo) WithByType(tp string) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("type = ?", tp)
+		return g.Where("`type` = ?", tp)
 	}
 }
 
@@ -68,7 +68,7 @@ func (c *CommonRepo) WithByGroupID(groupID uint) DBOption {
 		if groupID == 0 {
 			return g
 		}
-		return g.Where("group_id = ?", groupID)
+		return g.Where("`group_id` = ?", groupID)
 	}
 }
 
@@ -77,7 +77,7 @@ func (c *CommonRepo) WithByStatus(status string) DBOption {
 		if len(status) == 0 {
 			return g
 		}
-		return g.Where("status = ?", status)
+		return g.Where("`status` = ?", status)
 	}
 }
 
@@ -92,7 +92,7 @@ func (c *CommonRepo) WithLikeName(name string) DBOption {
 		if len(name) == 0 {
 			return g
 		}
-		return g.Where("name like ?", "%"+name+"%")
+		return g.Where("`name like` ?", "%"+name+"%")
 	}
 }
 
@@ -119,13 +119,13 @@ func (c *CommonRepo) WithOrderRuleBy(orderBy, order string) DBOption {
 
 func (c *CommonRepo) WithIdsIn(ids []uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("id in (?)", ids)
+		return g.Where("`id` in (?)", ids)
 	}
 }
 
 func (c *CommonRepo) WithIdsNotIn(ids []uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("id not in (?)", ids)
+		return g.Where("`id` not in (?)", ids)
 	}
 }
 

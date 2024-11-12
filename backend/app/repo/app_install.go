@@ -44,13 +44,13 @@ func NewIAppInstallRepo() IAppInstallRepo {
 
 func (a *AppInstallRepo) WithDetailIdsIn(detailIds []uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("app_detail_id in (?)", detailIds)
+		return g.Where("`app_detail_id` in (?)", detailIds)
 	}
 }
 
 func (a *AppInstallRepo) WithDetailIdNotIn(detailIds []uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("app_detail_id not in (?)", detailIds)
+		return g.Where("`app_detail_id` not in (?)", detailIds)
 	}
 }
 

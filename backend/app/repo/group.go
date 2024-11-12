@@ -47,12 +47,12 @@ func (u *GroupRepo) Create(group *model.Group) error {
 }
 
 func (u *GroupRepo) Update(id uint, vars map[string]interface{}) error {
-	return global.DB.Model(&model.Group{}).Where("id = ?", id).Updates(vars).Error
+	return global.DB.Model(&model.Group{}).Where("`id` = ?", id).Updates(vars).Error
 }
 
 func (u *GroupRepo) WithByHostDefault() DBOption {
 	return func(g *gorm.DB) *gorm.DB {
-		return g.Where("is_default = ? AND type = ?", 1, "host")
+		return g.Where("`is_default` = ? AND `type` = ?", 1, "host")
 	}
 }
 
@@ -65,5 +65,5 @@ func (u *GroupRepo) Delete(opts ...DBOption) error {
 }
 
 func (u *GroupRepo) CancelDefault(groupType string) error {
-	return global.DB.Model(&model.Group{}).Where("is_default = ? AND type = ?", 1, groupType).Updates(map[string]interface{}{"is_default": 0}).Error
+	return global.DB.Model(&model.Group{}).Where("`is_default` = ? AND `type` = ?", 1, groupType).Updates(map[string]interface{}{"is_default": 0}).Error
 }

@@ -57,7 +57,7 @@ func (u *ClamRepo) Create(clam *model.Clam) error {
 }
 
 func (u *ClamRepo) Update(id uint, vars map[string]interface{}) error {
-	return global.DB.Model(&model.Clam{}).Where("id = ?", id).Updates(vars).Error
+	return global.DB.Model(&model.Clam{}).Where("`id` = ?", id).Updates(vars).Error
 }
 
 func (u *ClamRepo) Delete(opts ...DBOption) error {

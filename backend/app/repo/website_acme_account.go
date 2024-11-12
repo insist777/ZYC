@@ -24,12 +24,12 @@ type WebsiteAcmeAccountRepo struct {
 
 func (w *WebsiteAcmeAccountRepo) WithEmail(email string) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("email = ?", email)
+		return db.Where("`email` = ?", email)
 	}
 }
 func (w *WebsiteAcmeAccountRepo) WithType(acType string) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("type = ?", acType)
+		return db.Where("`type` = ?", acType)
 	}
 }
 

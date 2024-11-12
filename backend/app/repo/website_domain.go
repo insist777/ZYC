@@ -31,23 +31,23 @@ func NewIWebsiteDomainRepo() IWebsiteDomainRepo {
 
 func (w WebsiteDomainRepo) WithWebsiteId(websiteId uint) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("website_id = ?", websiteId)
+		return db.Where("`website_id` = ?", websiteId)
 	}
 }
 
 func (w WebsiteDomainRepo) WithPort(port int) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("port = ?", port)
+		return db.Where("`port` = ?", port)
 	}
 }
 func (w WebsiteDomainRepo) WithDomain(domain string) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("domain = ?", domain)
+		return db.Where("`domain` = ?", domain)
 	}
 }
 func (w WebsiteDomainRepo) WithDomainLike(domain string) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("domain like ?", "%"+domain+"%")
+		return db.Where("`domain like` ?", "%"+domain+"%")
 	}
 }
 func (w WebsiteDomainRepo) Page(page, size int, opts ...DBOption) (int64, []model.WebsiteDomain, error) {
@@ -94,5 +94,5 @@ func (w WebsiteDomainRepo) DeleteBy(ctx context.Context, opts ...DBOption) error
 }
 
 func (w WebsiteDomainRepo) DeleteAll(ctx context.Context) error {
-	return getTx(ctx).Where("1 = 1 ").Delete(&model.WebsiteDomain{}).Error
+	return getTx(ctx).Where("`1 = 1` ").Delete(&model.WebsiteDomain{}).Error
 }

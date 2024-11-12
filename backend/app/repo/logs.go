@@ -71,7 +71,7 @@ func (c *LogRepo) WithByStatus(status string) DBOption {
 		if len(status) == 0 {
 			return g
 		}
-		return g.Where("status = ?", status)
+		return g.Where("`status` = ?", status)
 	}
 }
 func (c *LogRepo) WithByGroup(group string) DBOption {
@@ -79,7 +79,7 @@ func (c *LogRepo) WithByGroup(group string) DBOption {
 		if len(group) == 0 {
 			return g
 		}
-		return g.Where("source = ?", group)
+		return g.Where("`source` = ?", group)
 	}
 }
 func (c *LogRepo) WithByIP(ip string) DBOption {
@@ -87,7 +87,7 @@ func (c *LogRepo) WithByIP(ip string) DBOption {
 		if len(ip) == 0 {
 			return g
 		}
-		return g.Where("ip LIKE ?", "%"+ip+"%")
+		return g.Where("`ip` LIKE ?", "%"+ip+"%")
 	}
 }
 func (c *LogRepo) WithByLikeOperation(operation string) DBOption {
@@ -96,6 +96,6 @@ func (c *LogRepo) WithByLikeOperation(operation string) DBOption {
 			return g
 		}
 		infoStr := "%" + operation + "%"
-		return g.Where("detail_zh LIKE ? OR detail_en LIKE ?", infoStr, infoStr)
+		return g.Where("`detail_zh` LIKE ? OR `detail_en` LIKE ?", infoStr, infoStr)
 	}
 }
