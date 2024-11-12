@@ -444,7 +444,7 @@ var EncryptHostPassword = &gormigrate.Migration{
 		}
 
 		var encryptSetting model.Setting
-		if err := tx.Where("keys = ?", "EncryptKey").Find(&encryptSetting).Error; err != nil {
+		if err := tx.Where("`keys` = ?", "EncryptKey").Find(&encryptSetting).Error; err != nil {
 			return err
 		}
 		global.CONF.System.EncryptKey = encryptSetting.Value

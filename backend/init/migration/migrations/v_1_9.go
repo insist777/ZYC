@@ -231,12 +231,12 @@ var UpdateOneDriveToken = &gormigrate.Migration{
 			return nil
 		}
 
-		_ = tx.Where("keys = ?", "OneDriveID").First(&clientSetting).Error
+		_ = tx.Where("`keys` = ?", "OneDriveID").First(&clientSetting).Error
 		if clientSetting.ID == 0 {
 			global.LOG.Error("system configuration lacks clientID information, please retry.")
 			return nil
 		}
-		_ = tx.Where("keys = ?", "OneDriveSc").First(&secretSetting).Error
+		_ = tx.Where("`keys` = ?", "OneDriveSc").First(&secretSetting).Error
 		if secretSetting.ID == 0 {
 			global.LOG.Error("system configuration lacks clientID information, please retry.")
 			return nil

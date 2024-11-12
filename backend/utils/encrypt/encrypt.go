@@ -19,7 +19,7 @@ func StringEncrypt(text string) (string, error) {
 	}
 	if len(global.CONF.System.EncryptKey) == 0 {
 		var encryptSetting model.Setting
-		if err := global.DB.Where("keys = ?", "EncryptKey").First(&encryptSetting).Error; err != nil {
+		if err := global.DB.Where("`keys` = ?", "EncryptKey").First(&encryptSetting).Error; err != nil {
 			return "", err
 		}
 		global.CONF.System.EncryptKey = encryptSetting.Value
@@ -40,7 +40,7 @@ func StringDecrypt(text string) (string, error) {
 	}
 	if len(global.CONF.System.EncryptKey) == 0 {
 		var encryptSetting model.Setting
-		if err := global.DB.Where("keys = ?", "EncryptKey").First(&encryptSetting).Error; err != nil {
+		if err := global.DB.Where("`keys` = ?", "EncryptKey").First(&encryptSetting).Error; err != nil {
 			return "", err
 		}
 		global.CONF.System.EncryptKey = encryptSetting.Value
