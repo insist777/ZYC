@@ -299,7 +299,7 @@ var AddEntranceAndSSL = &gormigrate.Migration{
 	ID: "20230414-add-entrance-and-ssl",
 	Migrate: func(tx *gorm.DB) error {
 		if err := tx.Model(&model.Setting{}).
-			Where("keys = ? AND value = ?", "SecurityEntrance", "onepanel").
+			Where("`keys` = ? AND `value` = ?", "SecurityEntrance", "onepanel").
 			Updates(map[string]interface{}{"value": ""}).Error; err != nil {
 			return err
 		}
@@ -514,7 +514,7 @@ var UpdateRedisParam = &gormigrate.Migration{
 			app        model.App
 			appInstall model.AppInstall
 		)
-		if err := tx.Where("keys = ?", "redis").First(&app).Error; err != nil {
+		if err := tx.Where("`keys` = ?", "redis").First(&app).Error; err != nil {
 			return nil
 		}
 		if err := tx.Where("app_id = ?", app.ID).First(&appInstall).Error; err != nil {

@@ -47,7 +47,7 @@ func (t TagRepo) GetByIds(ids []uint) ([]model.Tag, error) {
 
 func (t TagRepo) GetByKeys(keys []string) ([]model.Tag, error) {
 	var tags []model.Tag
-	if err := getDb().Where("key in (?)", keys).Find(&tags).Error; err != nil {
+	if err := getDb().Where("`keys` in (?)", keys).Find(&tags).Error; err != nil {
 		return nil, err
 	}
 	return tags, nil
