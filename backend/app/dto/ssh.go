@@ -3,7 +3,7 @@ package dto
 import "time"
 
 type SSHUpdate struct {
-	Key      string `json:"key" validate:"required"`
+	Key      string `json:"keys" validate:"required"`
 	OldValue string `json:"oldValue"`
 	NewValue string `json:"newValue"`
 }

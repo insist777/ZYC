@@ -2,6 +2,7 @@ package cron
 
 import (
 	"fmt"
+	"github.com/robfig/cron/v3"
 	mathRand "math/rand"
 	"time"
 
@@ -13,7 +14,6 @@ import (
 	"github.com/1Panel-dev/1Panel/backend/global"
 	"github.com/1Panel-dev/1Panel/backend/utils/common"
 	"github.com/1Panel-dev/1Panel/backend/utils/ntp"
-	"github.com/robfig/cron/v3"
 )
 
 func Run() {
@@ -25,11 +25,11 @@ func Run() {
 		status   model.Setting
 	)
 	go syncBeforeStart()
-	if err := global.DB.Where("key = ?", "MonitorStatus").Find(&status).Error; err != nil {
+	if err := global.DB.Where("keys = ?", "MonitorStatus").Find(&status).Error; err != nil {
 		global.LOG.Errorf("load monitor status from db failed, err: %v", err)
 	}
 	if status.Value == "enable" {
-		if err := global.DB.Where("key = ?", "MonitorInterval").Find(&interval).Error; err != nil {
+		if err := global.DB.Where("keys = ?", "MonitorInterval").Find(&interval).Error; err != nil {
 			global.LOG.Errorf("load monitor interval from db failed, err: %v", err)
 		}
 		if err := service.StartMonitor(false, interval.Value); err != nil {
@@ -83,7 +83,7 @@ func Run() {
 
 func syncBeforeStart() {
 	var ntpSite model.Setting
-	if err := global.DB.Where("key = ?", "NtpSite").Find(&ntpSite).Error; err != nil {
+	if err := global.DB.Where("keys = ?", "NtpSite").Find(&ntpSite).Error; err != nil {
 		global.LOG.Errorf("load ntp serve from db failed, err: %v", err)
 	}
 	if len(ntpSite.Value) == 0 {

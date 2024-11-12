@@ -30,7 +30,7 @@ type AppDTO struct {
 
 type AppDto struct {
 	Name        string      `json:"name"`
-	Key         string      `json:"key"`
+	Key         string      `json:"keys"`
 	ID          uint        `json:"id"`
 	ShortDescZh string      `json:"shortDescZh"`
 	ShortDescEn string      `json:"shortDescEn"`
@@ -137,7 +137,7 @@ type AppService struct {
 type AppParam struct {
 	Value     interface{} `json:"value"`
 	Edit      bool        `json:"edit"`
-	Key       string      `json:"key"`
+	Key       string      `json:"keys"`
 	Rule      string      `json:"rule"`
 	LabelZh   string      `json:"labelZh"`
 	LabelEn   string      `json:"labelEn"`

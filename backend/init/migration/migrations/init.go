@@ -2,6 +2,7 @@ package migrations
 
 import (
 	"fmt"
+	"github.com/go-gormigrate/gormigrate/v2"
 	"strings"
 	"time"
 
@@ -14,7 +15,6 @@ import (
 	"github.com/1Panel-dev/1Panel/backend/utils/common"
 	"github.com/1Panel-dev/1Panel/backend/utils/encrypt"
 
-	"github.com/go-gormigrate/gormigrate/v2"
 	"gorm.io/gorm"
 )
 
@@ -299,7 +299,7 @@ var AddEntranceAndSSL = &gormigrate.Migration{
 	ID: "20230414-add-entrance-and-ssl",
 	Migrate: func(tx *gorm.DB) error {
 		if err := tx.Model(&model.Setting{}).
-			Where("key = ? AND value = ?", "SecurityEntrance", "onepanel").
+			Where("keys = ? AND value = ?", "SecurityEntrance", "onepanel").
 			Updates(map[string]interface{}{"value": ""}).Error; err != nil {
 			return err
 		}
@@ -444,7 +444,7 @@ var EncryptHostPassword = &gormigrate.Migration{
 		}
 
 		var encryptSetting model.Setting
-		if err := tx.Where("key = ?", "EncryptKey").Find(&encryptSetting).Error; err != nil {
+		if err := tx.Where("keys = ?", "EncryptKey").Find(&encryptSetting).Error; err != nil {
 			return err
 		}
 		global.CONF.System.EncryptKey = encryptSetting.Value
@@ -514,7 +514,7 @@ var UpdateRedisParam = &gormigrate.Migration{
 			app        model.App
 			appInstall model.AppInstall
 		)
-		if err := tx.Where("key = ?", "redis").First(&app).Error; err != nil {
+		if err := tx.Where("keys = ?", "redis").First(&app).Error; err != nil {
 			return nil
 		}
 		if err := tx.Where("app_id = ?", app.ID).First(&appInstall).Error; err != nil {

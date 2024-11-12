@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/go-gormigrate/gormigrate/v2"
 	"path"
 	"strings"
 	"time"
@@ -16,7 +17,6 @@ import (
 	"github.com/1Panel-dev/1Panel/backend/constant"
 	"github.com/1Panel-dev/1Panel/backend/global"
 	"github.com/1Panel-dev/1Panel/backend/utils/cloud_storage/client"
-	"github.com/go-gormigrate/gormigrate/v2"
 	"gorm.io/gorm"
 )
 
@@ -231,12 +231,12 @@ var UpdateOneDriveToken = &gormigrate.Migration{
 			return nil
 		}
 
-		_ = tx.Where("key = ?", "OneDriveID").First(&clientSetting).Error
+		_ = tx.Where("keys = ?", "OneDriveID").First(&clientSetting).Error
 		if clientSetting.ID == 0 {
 			global.LOG.Error("system configuration lacks clientID information, please retry.")
 			return nil
 		}
-		_ = tx.Where("key = ?", "OneDriveSc").First(&secretSetting).Error
+		_ = tx.Where("keys = ?", "OneDriveSc").First(&secretSetting).Error
 		if secretSetting.ID == 0 {
 			global.LOG.Error("system configuration lacks clientID information, please retry.")
 			return nil

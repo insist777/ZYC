@@ -93,7 +93,7 @@ type AppInstalledIgnoreUpgrade struct {
 }
 
 type PortUpdate struct {
-	Key  string `json:"key"`
+	Key  string `json:"keys"`
 	Name string `json:"name"`
 	Port int64  `json:"port"`
 }

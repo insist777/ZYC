@@ -10,8 +10,8 @@ import (
 type AppInstall struct {
 	BaseModel
 	Name          string `json:"name" gorm:"type:varchar(64);not null;UNIQUE"`
-	AppId         uint   `json:"appId" gorm:"type:integer;not null"`
-	AppDetailId   uint   `json:"appDetailId" gorm:"type:integer;not null"`
+	AppId         uint   `json:"appId" gorm:"type:bigint;not null"`
+	AppDetailId   uint   `json:"appDetailId" gorm:"type:bigint;not null"`
 	Version       string `json:"version" gorm:"type:varchar(64);not null"`
 	Param         string `json:"param"  gorm:"type:longtext;"`
 	Env           string `json:"env"  gorm:"type:longtext;"`
@@ -21,8 +21,8 @@ type AppInstall struct {
 	Message       string `json:"message"  gorm:"type:longtext;"`
 	ContainerName string `json:"containerName" gorm:"type:varchar(256);not null"`
 	ServiceName   string `json:"serviceName" gorm:"type:varchar(256);not null"`
-	HttpPort      int    `json:"httpPort" gorm:"type:integer;not null"`
-	HttpsPort     int    `json:"httpsPort" gorm:"type:integer;not null"`
+	HttpPort      int    `json:"httpPort" gorm:"type:int;not null"`
+	HttpsPort     int    `json:"httpsPort" gorm:"type:int;not null"`
 	App           App    `json:"app" gorm:"-:migration"`
 }
 

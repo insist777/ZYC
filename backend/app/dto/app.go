@@ -84,7 +84,7 @@ type AppProperty struct {
 	Tags               []string `json:"tags"`
 	ShortDescZh        string   `json:"shortDescZh"`
 	ShortDescEn        string   `json:"shortDescEn"`
-	Key                string   `json:"key"`
+	Key                string   `json:"keys"`
 	Required           []string `json:"Required"`
 	CrossVersionUpdate bool     `json:"crossVersionUpdate"`
 	Limit              int      `json:"limit"`
@@ -103,7 +103,7 @@ type AppConfigVersion struct {
 }
 
 type Tag struct {
-	Key  string `json:"key"`
+	Key  string `json:"keys"`
 	Name string `json:"name"`
 	Sort int    `json:"sort"`
 }
@@ -144,6 +144,6 @@ var AppToolMap = map[string]string{
 
 type AppInstallInfo struct {
 	ID   uint   `json:"id"`
-	Key  string `json:"key"`
+	Key  string `json:"keys"`
 	Name string `json:"name"`
 }

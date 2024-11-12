@@ -28,7 +28,7 @@ type setting struct {
 	ID        uint      `gorm:"primarykey;AUTO_INCREMENT" json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-	Key       string    `json:"key" gorm:"type:varchar(256);not null;"`
+	Key       string    `json:"keys" gorm:"type:varchar(256);not null;"`
 	Value     string    `json:"value" gorm:"type:varchar(256)"`
 	About     string    `json:"about" gorm:"type:longText"`
 }
@@ -55,7 +55,7 @@ func loadDBConn() (*gorm.DB, error) {
 
 func getSettingByKey(db *gorm.DB, key string) string {
 	var setting setting
-	_ = db.Where("key = ?", key).First(&setting).Error
+	_ = db.Where("keys = ?", key).First(&setting).Error
 	return setting.Value
 }
 
@@ -68,7 +68,7 @@ func isDefault(db *gorm.DB) bool {
 }
 
 func setSettingByKey(db *gorm.DB, key, value string) error {
-	return db.Model(&setting{}).Where("key = ?", key).Updates(map[string]interface{}{"value": value}).Error
+	return db.Model(&setting{}).Where("keys = ?", key).Updates(map[string]interface{}{"value": value}).Error
 }
 
 func isRoot() bool {

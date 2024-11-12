@@ -32,7 +32,7 @@ type FileProcessKeys struct {
 }
 
 type FileWgetRes struct {
-	Key string `json:"key"`
+	Key string `json:"keys"`
 }
 
 type FileLineContent struct {

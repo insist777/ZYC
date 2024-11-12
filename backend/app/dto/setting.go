@@ -78,7 +78,7 @@ type SSLUpdate struct {
 	Domain      string `json:"domain"`
 	SSL         string `json:"ssl" validate:"required,oneof=enable disable"`
 	Cert        string `json:"cert"`
-	Key         string `json:"key"`
+	Key         string `json:"keys"`
 	SSLID       uint   `json:"sslID"`
 	AutoRestart string `json:"autoRestart"`
 }
@@ -87,7 +87,7 @@ type SSLInfo struct {
 	Timeout  string `json:"timeout"`
 	RootPath string `json:"rootPath"`
 	Cert     string `json:"cert"`
-	Key      string `json:"key"`
+	Key      string `json:"keys"`
 	SSLID    uint   `json:"sslID"`
 }
 

@@ -74,7 +74,7 @@ type WebsiteOp struct {
 
 type WebsiteRedirectUpdate struct {
 	WebsiteID uint   `json:"websiteId" validate:"required"`
-	Key       string `json:"key" validate:"required"`
+	Key       string `json:"keys" validate:"required"`
 	Enable    bool   `json:"enable"`
 }
 
@@ -206,7 +206,7 @@ type WebsiteCommonReq struct {
 }
 
 type WafWebsite struct {
-	Key     string   `json:"key"`
+	Key     string   `json:"keys"`
 	Domains []string `json:"domains"`
 	Host    []string `json:"host"`
 }

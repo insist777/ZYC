@@ -111,7 +111,7 @@ type DirSizeReq struct {
 }
 
 type FileProcessReq struct {
-	Key string `json:"key"`
+	Key string `json:"keys"`
 }
 
 type FileRoleUpdate struct {

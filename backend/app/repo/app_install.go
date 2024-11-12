@@ -171,7 +171,7 @@ type RootInfo struct {
 	ServiceName   string `json:"serviceName"`
 	Param         string `json:"param"`
 	Env           string `json:"env"`
-	Key           string `json:"key"`
+	Key           string `json:"keys"`
 	Version       string `json:"version"`
 	AppPath       string `json:"app_path"`
 }
@@ -182,7 +182,7 @@ func (a *AppInstallRepo) LoadBaseInfo(key string, name string) (*RootInfo, error
 		appInstall model.AppInstall
 		info       RootInfo
 	)
-	if err := global.DB.Where("key = ?", key).First(&app).Error; err != nil {
+	if err := global.DB.Where("keys = ?", key).First(&app).Error; err != nil {
 		return nil, err
 	}
 	if len(name) == 0 {

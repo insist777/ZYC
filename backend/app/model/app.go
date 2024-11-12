@@ -17,14 +17,14 @@ type App struct {
 	Status             string `json:"status" gorm:"type:varchar(64);not null"`
 	Required           string `json:"required" gorm:"type:varchar(64);"`
 	CrossVersionUpdate bool   `json:"crossVersionUpdate" yaml:"crossVersionUpdate"`
-	Limit              int    `json:"limit" gorm:"type:Integer;not null"`
+	Limit              int    `json:"limit" gorm:"type:bigint;not null"`
 	Website            string `json:"website" gorm:"type:varchar(64);not null"`
 	Github             string `json:"github" gorm:"type:varchar(64);not null"`
 	Document           string `json:"document" gorm:"type:varchar(64);not null"`
-	Recommend          int    `json:"recommend" gorm:"type:Integer;not null"`
-	Resource           string `json:"resource" gorm:"type:varchar;not null;default:remote"`
-	ReadMe             string `json:"readMe" gorm:"type:varchar;"`
-	LastModified       int    `json:"lastModified" gorm:"type:Integer;"`
+	Recommend          int    `json:"recommend" gorm:"type:bigint;not null"`
+	Resource           string `json:"resource" gorm:"type:varchar(255);not null;default:'remote'"`
+	ReadMe             string `json:"readMe" gorm:"type:varchar(255);"`
+	LastModified       int    `json:"lastModified" gorm:"type:bigint;"`
 
 	Details []AppDetail `json:"-" gorm:"-:migration"`
 	TagsKey []string    `json:"tags" yaml:"tags" gorm:"-"`
