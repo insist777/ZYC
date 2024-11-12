@@ -153,7 +153,7 @@ var AddTableDatabasePostgresql = &gormigrate.Migration{
 			return err
 		}
 		var jobs []model.Cronjob
-		if err := tx.Where("`type` == ?", "database").Find(&jobs).Error; err != nil {
+		if err := tx.Where("`type` = ?", "database").Find(&jobs).Error; err != nil {
 			return err
 		}
 		for _, job := range jobs {
